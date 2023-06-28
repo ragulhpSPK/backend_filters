@@ -11,7 +11,7 @@ function Product({ id, subId }) {
   const fetchData = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:4001/getpro?q=${id}&sub=${subId}`
+        `https://backend-filters-frontend.vercel.app/getpro?q=${id}&sub=${subId}`
       );
       setProducts(result.data);
     } catch (e) {
