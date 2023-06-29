@@ -11,9 +11,7 @@ function SubCategories({ id }) {
 
   const fetchData = async () => {
     try {
-      const result = await axios.get(
-        `https://backend-filters-frontend.vercel.app/subcat?q=${id}`
-      );
+      const result = await axios.get(`http://localhost:4001/subcat?q=${id}`);
       setproduct(result.data);
     } catch (e) {
       console.log(e);
@@ -34,9 +32,9 @@ function SubCategories({ id }) {
           setSubId(e || "");
         }}
         allowClear
-        onBlur={() => {
-          setSubId("");
-        }}
+        // onBlur={() => {
+        //   setSubId("");
+        // }}
       >
         {product.map((data, i) => {
           return <Option value={data._id}>{data.name}</Option>;

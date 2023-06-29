@@ -21,13 +21,6 @@ function Product({ id, subId }) {
   useEffect(() => {
     fetchData();
   }, [id, subId, searched]);
-  const handleSearch = () => {
-    // Perform search logic here
-
-    // Clear input and remove focus
-    setSearched("");
-    document.activeElement.blur();
-  };
 
   return (
     <div className="flex flex-col w-[80vw] pb-20">
