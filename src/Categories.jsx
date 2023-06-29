@@ -10,7 +10,7 @@ function Categories() {
   const fetchData = async () => {
     try {
       const result = await axios.get(
-        "https://backend-filters-frontend.vercel.app//getcat"
+        "https://backend-filters-frontend.vercel.app/getcat"
       );
       setCategories(result.data);
     } catch (e) {
