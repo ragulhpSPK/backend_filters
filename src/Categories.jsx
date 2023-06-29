@@ -9,7 +9,9 @@ function Categories() {
 
   const fetchData = async () => {
     try {
-      const result = await axios.get("http://localhost:4001/getcat");
+      const result = await axios.get(
+        "https://backend-filters-frontend.vercel.app//getcat"
+      );
       setCategories(result.data);
     } catch (e) {
       console.log(e);

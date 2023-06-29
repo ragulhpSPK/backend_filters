@@ -16,7 +16,9 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/getuser");
+      const res = await axios.get(
+        "https://backend-filters-frontend.vercel.app/getuser"
+      );
       setUser(res.data);
     } catch (er) {
       console.log(er);
@@ -58,7 +60,9 @@ function App() {
     const value = e.target.value;
     setSearchQuery(value);
     try {
-      const res = await axios.get(`http://localhost:4001/search?q=${value}`);
+      const res = await axios.get(
+        `https://backend-filters-frontend.vercel.app/search?q=${value}`
+      );
       setSearchResults(res.data.result);
     } catch (e) {
       console.log(e);
