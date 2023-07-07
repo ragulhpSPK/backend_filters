@@ -6,7 +6,8 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { useReactToPrint } from "react-to-print";
-import { useDownloadExcel } from "react-export-table-to-excel";
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import Print from "./print";
 
 function App() {
   const componentPDF = useRef();
@@ -15,6 +16,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const tableRef = useRef(null);
+  const [action, setAction] = useState([1]);
 
   const fetchData = async () => {
     try {
@@ -72,16 +74,16 @@ function App() {
   };
 
   const generatePDF = useReactToPrint({
-    content: () => componentPDF.current,
+    content: () => tableRef.current,
     documentTitle: "UserData",
     onafterprint: () => alert("Data Saved"),
   });
 
-  const { onDownload } = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: "Web Users",
-    sheet: "Web Users",
-  });
+  // const { onDownload } = useDownloadExcel({
+  //   currentTableRef: tableRef.current,
+  //   filename: "Web Users",
+  //   sheet: "Web Users",
+  // });
 
   return (
     <div className="!text-red-500 !w-[80vw] m-auto pt-20">
@@ -94,23 +96,39 @@ function App() {
           value={searchQuery}
         />
       </div>
-      <div ref={componentPDF}>
-        <button
-          onClick={onDownload}
-          className="text-white bg-green-400 px-3 py-1.5 text-center rounded-md float-right"
-        >
-          Download PDF
+      <DownloadTableExcel
+        filename=" table"
+        sheet="users"
+        currentTableRef={tableRef.current}
+      >
+        <button className="text-white bg-green-400 px-3 py-1.5 text-center rounded-md float-right">
+          Export excel
         </button>
-        <Table
-          columns={columns}
-          dataSource={isEmpty(searchResults) ? user : searchResults}
-          className="pt-4"
-          ref={tableRef}
-        />
+      </DownloadTableExcel>
+
+      <div ref={tableRef}>
+        {action.map((res, index) => {
+          return (
+            <Table
+              columns={columns}
+              key={index}
+              dataSource={isEmpty(searchResults) ? user : searchResults}
+              className={`pt-4 ${action.length > 1 && "h-[100vh]"} `}
+            />
+          );
+        })}
       </div>
 
       <button
-        onClick={generatePDF}
+        onClick={() => {
+          setAction([1, 2, 3, 4]);
+          setTimeout(() => {
+            generatePDF();
+          }, 1000);
+          setTimeout(() => {
+            setAction([1]);
+          }, 1000);
+        }}
         className="text-white bg-green-400 px-3 py-1 rounded-md  z-40 !cursor-pointer "
       >
         Download PDF
@@ -119,6 +137,7 @@ function App() {
       <div className="flex">
         <Categories />
       </div>
+      <Print />
     </div>
   );
 }
